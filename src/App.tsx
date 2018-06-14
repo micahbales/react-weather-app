@@ -6,7 +6,12 @@ class App extends React.Component {
   public render() {
     return (
       <div className="app">
-        <WeatherSquare />
+        <WeatherSquare 
+          day="Mon"
+          icon="icon.ico"
+          high="77"
+          low="53"
+        />
       </div>
     );
   }
