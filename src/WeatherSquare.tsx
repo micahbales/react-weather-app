@@ -5,17 +5,21 @@ interface IWeatherSquare {
     icon: string;
     high: string;
     low: string;
+    units: string;
 }
 
 class WeatherSquare extends React.Component<IWeatherSquare> {
     public render() {
+        const tempUnit = this.props.units === 'imperial' ? 'F' : (this.props.units === 'metric' ? 'C' : 'Kelvin');
         return (
             <div className="weather-square">
                 <h1>{this.props.day}</h1>
-                <div className="icon">{this.props.icon}</div>
+                <img className="icon" src={`http://openweathermap.org/img/w/${this.props.icon}`}/>
                 <div className="temps">
-                    <li className="high">{this.props.high}</li>
-                    <li className="low">{this.props.low}</li>
+                    <label>High:</label>
+                    <div className="high">{this.props.high} ˚{tempUnit}</div>
+                    <label>Low:</label>
+                    <div className="low">{this.props.low} ˚{tempUnit}</div>
                 </div>
             </div>
         )
