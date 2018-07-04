@@ -21,14 +21,32 @@ class App extends React.Component <{}, {weatherData: any}> {
     if (this.state) {
       return (
         <div className="app">
-          <div className="weather-squares">
+          <div className="weather-now">
             <WeatherSquare 
-              day={moment().format('dddd')}
+              day={'Right Now'}
               icon={`${this.state.weatherData.data.weather[0].icon}.png`}
               high={this.state.weatherData.data.main.temp_max}
               low={this.state.weatherData.data.main.temp_min}
               units={units}
             />
+          </div>
+          <div className="forecast">
+            <h2>Five-Day Forecast</h2>
+            <div className="five-day-forecast">
+              {
+                [1,2,3,4,5].map((num) => {
+                return (
+                  <WeatherSquare 
+                    day={moment().format('dddd')}
+                    icon={`${this.state.weatherData.data.weather[0].icon}.png`}
+                    high={this.state.weatherData.data.main.temp_max}
+                    low={this.state.weatherData.data.main.temp_min}
+                    units={units}
+                    key={num}
+                  />)
+                })
+              }
+            </div>
           </div>
           
           {/* <p>{JSON.stringify(this.state)}</p> */}

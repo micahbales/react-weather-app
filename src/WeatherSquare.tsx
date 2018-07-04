@@ -13,7 +13,7 @@ class WeatherSquare extends React.Component<IWeatherSquare> {
         const tempUnit = this.props.units === 'imperial' ? 'F' : (this.props.units === 'metric' ? 'C' : 'Kelvin');
         return (
             <div className="weather-square">
-                <h1>{this.props.day}</h1>
+                <h3>{this.props.day}</h3>
                 <img className="icon" src={`http://openweathermap.org/img/w/${this.props.icon}`}/>
                 <div className="temps">
                     <label>High:</label>

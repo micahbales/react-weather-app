@@ -4,7 +4,7 @@ body {
   font-family: sans-serif;
 }
 
-.weather-squares {
+.five-day-forecast {
   margin: 0px 15px;
   display: flex;
 }
