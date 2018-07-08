@@ -16,7 +16,9 @@ class App extends React.Component <{}, {weatherData: any}> {
   
   public render() {
     if (this.state) {
+      const todayCode = this.state.weatherData.data.query.results.channel.item.condition.code;
       const city = this.state.weatherData.data.query.results.channel.location.city;
+      const todayDesc = this.state.weatherData.data.query.results.channel.item.text;
       const region = this.state.weatherData.data.query.results.channel.location.region;
       const todayHigh = this.state.weatherData.data.query.results.channel.item.forecast[0].high;
       const todayLow = this.state.weatherData.data.query.results.channel.item.forecast[0].low;
@@ -27,8 +29,9 @@ class App extends React.Component <{}, {weatherData: any}> {
           <h1>Weather for {city}{region}</h1>
           <div className="weather-now">
             <WeatherSquare 
+              code={todayCode}
               day={'Today'}
-              icon={`.png`}
+              desc={todayDesc}
               high={todayHigh}
               low={todayLow}
               unit={tempUnit}
@@ -39,14 +42,17 @@ class App extends React.Component <{}, {weatherData: any}> {
             <div className="five-day-forecast">
               {
                 [1,2,3,4,5].map((num) => {
+                  const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
                   const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
+                  const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
                   const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
                   const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
 
                   return (
                     <WeatherSquare 
+                      code={forecastCode}
                       day={day}
-                      icon={`.png`}
+                      desc={forecastDesc}
                       high={forecastHigh}
                       low={forecastLow}
                       unit={tempUnit}

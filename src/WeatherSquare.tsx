@@ -1,8 +1,9 @@
 import * as React from 'react';
 
 interface IWeatherSquare {
+    code: string;
     day: string;
-    icon: string;
+    desc: string;
     high: string;
     low: string;
     unit: string;
@@ -13,7 +14,8 @@ class WeatherSquare extends React.Component<IWeatherSquare> {
         return (
             <div className="weather-square">
                 <h3>{this.props.day}</h3>
-                <img className="icon" src={`http://openweathermap.org/img/w/${this.props.icon}`}/>
+                <img className="icon" src={`${this.props.code}.png`}/>
+                <h5>{this.props.desc}</h5>
                 <div className="temps">
                     <label>High:</label>
                     <div className="high">{this.props.high} ˚{this.props.unit}</div>
