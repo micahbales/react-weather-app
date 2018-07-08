@@ -16,16 +16,22 @@ class App extends React.Component <{}, {weatherData: any}> {
   
   public render() {
     if (this.state) {
+      const city = this.state.weatherData.data.query.results.channel.location.city;
+      const region = this.state.weatherData.data.query.results.channel.location.region;
+      const todayHigh = this.state.weatherData.data.query.results.channel.item.forecast[0].high;
+      const todayLow = this.state.weatherData.data.query.results.channel.item.forecast[0].low;
+      const tempUnit = this.state.weatherData.data.query.results.channel.units.temperature;
+
       return (
         <div className="app">
-          <h1>Weather for {this.state.weatherData.data.query.results.channel.location.city}{this.state.weatherData.data.query.results.channel.location.region}</h1>
+          <h1>Weather for {city}{region}</h1>
           <div className="weather-now">
             <WeatherSquare 
               day={'Today'}
               icon={`.png`}
-              high={this.state.weatherData.data.query.results.channel.item.forecast[0].high}
-              low={this.state.weatherData.data.query.results.channel.item.forecast[0].low}
-              unit={this.state.weatherData.data.query.results.channel.units.temperature}
+              high={todayHigh}
+              low={todayLow}
+              unit={tempUnit}
             />
           </div>
           <div className="forecast">
@@ -33,13 +39,17 @@ class App extends React.Component <{}, {weatherData: any}> {
             <div className="five-day-forecast">
               {
                 [1,2,3,4,5].map((num) => {
+                  const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
+                  const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
+                  const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
+
                   return (
                     <WeatherSquare 
-                      day={this.state.weatherData.data.query.results.channel.item.forecast[num].day}
+                      day={day}
                       icon={`.png`}
-                      high={this.state.weatherData.data.query.results.channel.item.forecast[num].high}
-                      low={this.state.weatherData.data.query.results.channel.item.forecast[num].low}
-                      unit={this.state.weatherData.data.query.results.channel.units.temperature}
+                      high={forecastHigh}
+                      low={forecastLow}
+                      unit={tempUnit}
                       key={num}
                     />
                   )
