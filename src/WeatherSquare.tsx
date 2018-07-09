@@ -14,7 +14,7 @@ class WeatherSquare extends React.Component<IWeatherSquare> {
         return (
             <div className="weather-square">
                 <h3>{this.props.day}</h3>
-                <img className="icon" src={`${this.props.code}.png`}/>
+                <i className={`icon wi wi-yahoo-${this.props.code}`}/>
                 <h5>{this.props.desc}</h5>
                 <div className="temps">
                     <label>High:</label>
