@@ -1,5 +1,10 @@
 import axios from 'axios';
 import * as React from 'react';
+import {
+  BrowserRouter as Router, 
+  Link, 
+  Route
+} from 'react-router-dom';
 import './App.css';
 import WeatherSquare from './WeatherSquare'
 
@@ -25,47 +30,52 @@ class App extends React.Component <{}, {weatherData: any}> {
       const tempUnit = this.state.weatherData.data.query.results.channel.units.temperature;
 
       return (
-        <div className="app">
-          <h1>Weather for {city}{region}</h1>
-          <div className="weather-now">
-            <WeatherSquare 
-              code={todayCode}
-              day={'Today'}
-              desc={todayDesc}
-              high={todayHigh}
-              low={todayLow}
-              unit={tempUnit}
-            />
-          </div>
-          <div className="forecast">
-            <h2>Five-Day Forecast</h2>
-            <div className="five-day-forecast">
-              {
-                [1,2,3,4,5].map((num) => {
-                  const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
-                  const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
-                  const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
-                  const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
-                  const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
-
-                  return (
-                    <WeatherSquare 
-                      code={forecastCode}
-                      day={day}
-                      desc={forecastDesc}
-                      high={forecastHigh}
-                      low={forecastLow}
-                      unit={tempUnit}
-                      key={num}
-                    />
-                  )
-                })
-              }
+        <Router>
+          <div className="app">
+            <Link to={'/weather-link'}>
+              <h1>Weather for {city}{region}</h1>
+            </Link>
+            <Route path="/weather-link" render={() =>  <SelectedWeather props={'here'} />} />
+            <div className="weather-now">
+              <WeatherSquare 
+                code={todayCode}
+                day={'Today'}
+                desc={todayDesc}
+                high={todayHigh}
+                low={todayLow}
+                unit={tempUnit}
+              />
             </div>
+            <div className="forecast">
+              <h2>Five-Day Forecast</h2>
+              <div className="five-day-forecast">
+                {
+                  [1,2,3,4,5].map((num) => {
+                    const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
+                    const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
+                    const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
+                    const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
+                    const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
+
+                    return (
+                      <WeatherSquare 
+                        code={forecastCode}
+                        day={day}
+                        desc={forecastDesc}
+                        high={forecastHigh}
+                        low={forecastLow}
+                        unit={tempUnit}
+                        key={num}
+                      />
+                    )
+                  })
+                }
+              </div>
+            </div>
+            
+            {/* <p>{JSON.stringify(this.state.weatherData)}</p> */}
           </div>
-          
-          {/* <p>{JSON.stringify(this.state.weatherData)}</p> */}
-        </div>
+        </Router>
       );
     } else {
       return <div className="app">Loading...</div>
@@ -73,5 +83,16 @@ class App extends React.Component <{}, {weatherData: any}> {
     
   }
 }
+
+interface ISelectedWeatherProps {
+  props: string;
+}
+
+const SelectedWeather: React.SFC<ISelectedWeatherProps> = ({props}) => (
+  <div>
+    {JSON.stringify(props) ? 'hiiiii': 'nope'}
+    hi
+  </div>
+);
 
 export default App;

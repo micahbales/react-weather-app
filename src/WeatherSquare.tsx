@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-interface IWeatherSquare {
+export interface IWeatherSquare {
     code: string;
     day: string;
     desc: string;
