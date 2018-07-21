@@ -14,7 +14,8 @@ import {
 class App extends React.Component <{}, {weatherData: any}> {
   public componentDidMount() {
     // Get weather data
-    axios.get(`https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22washington%2C%20dc%22)&format=json`)
+    axios.get(`https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where` + 
+    `%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22washington%2C%20dc%22)&format=json`)
     .then((weatherData) => {
       this.setState({
         weatherData
@@ -46,35 +47,44 @@ class App extends React.Component <{}, {weatherData: any}> {
           <div className="app">
             <h1>Weather for {city}{region}</h1>
             <Link to={'/weather-today'}>
-              <p>See the Weather Right Now</p>
+              <p>See Today's Weather</p>
             </Link>
+            <Link to={'/five-day-forecast'}>
+              <p>See the Five-Day Forecast</p>
+            </Link>
+            
             <Route path="/weather-today" render={() =>  <WeatherSquare {...weatherTodayProps} />} />
-            <div className="forecast">
-              <h2>Five-Day Forecast</h2>
-              <div className="five-day-forecast">
-                {
-                  [1,2,3,4,5].map((num) => {
-                    const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
-                    const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
-                    const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
-                    const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
-                    const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
+            
+            <Route path="/five-day-forecast" render={() =>  {
+              return (
+                <div className="forecast">
+                <h2>Five-Day Forecast</h2>
+                <div className="five-day-forecast">
+                  {
+                    [1,2,3,4,5].map((num) => {
+                      const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
+                      const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
+                      const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
+                      const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
+                      const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
 
-                    return (
-                      <WeatherSquare 
-                        code={forecastCode}
-                        day={day}
-                        desc={forecastDesc}
-                        high={forecastHigh}
-                        low={forecastLow}
-                        unit={tempUnit}
-                        key={num}
-                      />
-                    )
-                  })
-                }
+                      return (
+                        <WeatherSquare 
+                          code={forecastCode}
+                          day={day}
+                          desc={forecastDesc}
+                          high={forecastHigh}
+                          low={forecastLow}
+                          unit={tempUnit}
+                          key={num}
+                        />
+                      )
+                    })
+                  }
+                </div>
               </div>
-            </div>
+              )
+            }} />
             
             {/* <p>{JSON.stringify(this.state.weatherData)}</p> */}
           </div>
