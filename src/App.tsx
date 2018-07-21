@@ -29,13 +29,22 @@ class App extends React.Component <{}, {weatherData: any}> {
       const todayLow = this.state.weatherData.data.query.results.channel.item.forecast[0].low;
       const tempUnit = this.state.weatherData.data.query.results.channel.units.temperature;
 
+      const weatherTodayProps: ISelectedWeatherProps = {
+        code: todayCode,
+        day: 'Today',
+        desc: todayDesc,
+        high: todayHigh,
+        low: todayLow,
+        unit: tempUnit
+      };
+
       return (
         <Router>
           <div className="app">
-            <Link to={'/weather-link'}>
+            <Link to={'/weather-today'}>
               <h1>Weather for {city}{region}</h1>
             </Link>
-            <Route path="/weather-link" render={() =>  <SelectedWeather props={'here'} />} />
+            <Route path="/weather-today" render={() =>  <SelectedWeather props={weatherTodayProps} />} />
             <div className="weather-now">
               <WeatherSquare 
                 code={todayCode}
@@ -85,13 +94,24 @@ class App extends React.Component <{}, {weatherData: any}> {
 }
 
 interface ISelectedWeatherProps {
-  props: string;
+  code: string;
+  day: string;
+  desc: string;
+  high: string;
+  low: string;
+  unit: string;
 }
 
-const SelectedWeather: React.SFC<ISelectedWeatherProps> = ({props}) => (
+const SelectedWeather = (props: ISelectedWeatherProps) => (
   <div>
-    {JSON.stringify(props) ? 'hiiiii': 'nope'}
-    hi
+    <WeatherSquare 
+      code={props.code}
+      day={props.day}
+      desc={props.desc}
+      high={props.high}
+      low={props.low}
+      unit={props.unit}
+    />
   </div>
 );
 
