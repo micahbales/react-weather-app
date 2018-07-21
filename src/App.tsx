@@ -6,7 +6,10 @@ import {
   Route
 } from 'react-router-dom';
 import './App.css';
-import WeatherSquare from './WeatherSquare'
+import {
+  IWeatherSquare, 
+  WeatherSquare
+} from './WeatherSquare'
 
 class App extends React.Component <{}, {weatherData: any}> {
   public componentDidMount() {
@@ -29,7 +32,7 @@ class App extends React.Component <{}, {weatherData: any}> {
       const todayLow = this.state.weatherData.data.query.results.channel.item.forecast[0].low;
       const tempUnit = this.state.weatherData.data.query.results.channel.units.temperature;
 
-      const weatherTodayProps: ISelectedWeatherProps = {
+      const weatherTodayProps: IWeatherSquare = {
         code: todayCode,
         day: 'Today',
         desc: todayDesc,
@@ -41,20 +44,11 @@ class App extends React.Component <{}, {weatherData: any}> {
       return (
         <Router>
           <div className="app">
+            <h1>Weather for {city}{region}</h1>
             <Link to={'/weather-today'}>
-              <h1>Weather for {city}{region}</h1>
+              <p>See the Weather Right Now</p>
             </Link>
-            <Route path="/weather-today" render={() =>  <SelectedWeather props={weatherTodayProps} />} />
-            <div className="weather-now">
-              <WeatherSquare 
-                code={todayCode}
-                day={'Today'}
-                desc={todayDesc}
-                high={todayHigh}
-                low={todayLow}
-                unit={tempUnit}
-              />
-            </div>
+            <Route path="/weather-today" render={() =>  <WeatherSquare {...weatherTodayProps} />} />
             <div className="forecast">
               <h2>Five-Day Forecast</h2>
               <div className="five-day-forecast">
@@ -92,27 +86,5 @@ class App extends React.Component <{}, {weatherData: any}> {
     
   }
 }
-
-interface ISelectedWeatherProps {
-  code: string;
-  day: string;
-  desc: string;
-  high: string;
-  low: string;
-  unit: string;
-}
-
-const SelectedWeather = (props: ISelectedWeatherProps) => (
-  <div>
-    <WeatherSquare 
-      code={props.code}
-      day={props.day}
-      desc={props.desc}
-      high={props.high}
-      low={props.low}
-      unit={props.unit}
-    />
-  </div>
-);
 
 export default App;

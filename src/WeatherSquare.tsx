@@ -9,7 +9,7 @@ export interface IWeatherSquare {
     unit: string;
 }
 
-class WeatherSquare extends React.Component<IWeatherSquare> {
+export class WeatherSquare extends React.Component<IWeatherSquare> {
     public render() {
         return (
             <div className="weather-square">
@@ -26,5 +26,3 @@ class WeatherSquare extends React.Component<IWeatherSquare> {
         )
     }
 }
-
-export default WeatherSquare;
