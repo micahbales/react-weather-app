@@ -49,24 +49,42 @@ class App extends React.Component <{}, {weatherData: any}> {
                 <Link to={'/'}>
                   <h1>Weather for {city}{region}</h1>
                 </Link>
-                <Link to={'/weather-today'}>
-                  <p>See Today's Weather</p>
-                </Link>
-                <Link to={'/five-day-forecast'}>
-                  <p>See the Five-Day Forecast</p>
-                </Link>
-                <Route path="/weather-today" render={() => {
+
+                <Route path="/" exact={true} render={() => {
                   return (
-                    <div className="weather-today">
-                      <h2>Today's Weather</h2>
-                      <WeatherSquare {...weatherTodayProps} />
+                    <div>
+                      <Link to={'/weather-today'}>
+                        <p>See Today's Weather</p>
+                      </Link>
+                      <Link to={'/five-day-forecast'}>
+                        <p>See the Five-Day Forecast</p>
+                      </Link>
                     </div>
                   )
                 }} />
 
-                <Route path="/five-day-forecast" render={() =>  {
+                <Route path="/weather-today" exact={true} render={() => {
                   return (
                     <div>
+                      <Link to={'/five-day-forecast'}>
+                        <p>See the Five-Day Forecast</p>
+                      </Link>
+
+                      <h2>Today's Weather</h2>
+                      <div className="weather-today">
+                        <WeatherSquare {...weatherTodayProps} />
+                      </div>
+                    </div>
+                  )
+                }} />
+
+                <Route path="/five-day-forecast" exact={true} render={() =>  {
+                  return (
+                    <div>
+                      <Link to={'/weather-today'}>
+                        <p>See Today's Weather</p>
+                      </Link>
+
                       <h2>Five-Day Forecast</h2>
                       <div className="five-day-forecast">
                         {
