@@ -17,10 +17,10 @@ export class WeatherSquare extends React.Component<IWeatherSquare> {
                 <i className={`icon wi wi-yahoo-${this.props.code}`}/>
                 <h5>{this.props.desc}</h5>
                 <div className="temps">
-                    <label>High:</label>
-                    <div className="high">{this.props.high} ˚{this.props.unit}</div>
-                    <label>Low:</label>
-                    <div className="low">{this.props.low} ˚{this.props.unit}</div>
+                    <p>High:</p>
+                    <p className="high">{this.props.high} ˚{this.props.unit}</p>
+                    <p>Low:</p>
+                    <p className="low">{this.props.low} ˚{this.props.unit}</p>
                 </div>
             </div>
         )

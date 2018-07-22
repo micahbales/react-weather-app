@@ -27,7 +27,7 @@ class App extends React.Component <{}, {weatherData: any}> {
     if (this.state) {
       const todayCode = this.state.weatherData.data.query.results.channel.item.condition.code;
       const city = this.state.weatherData.data.query.results.channel.location.city;
-      const todayDesc = this.state.weatherData.data.query.results.channel.item.text;
+      const todayDesc = this.state.weatherData.data.query.results.channel.item.condition.text;
       const region = this.state.weatherData.data.query.results.channel.location.region;
       const todayHigh = this.state.weatherData.data.query.results.channel.item.forecast[0].high;
       const todayLow = this.state.weatherData.data.query.results.channel.item.forecast[0].low;
@@ -43,62 +43,61 @@ class App extends React.Component <{}, {weatherData: any}> {
       };
 
       return (
-        <Router>
           <div className="app">
-            
-            <Route path="/" render={() => {
-              return (
-                <Router>
-                  <div className="home">
-                    <Link to={'/'}>
-                      <h1>Weather for {city}{region}</h1>
-                    </Link>
-                    <Link to={'/weather-today'}>
-                      <p>See Today's Weather</p>
-                    </Link>
-                    <Link to={'/five-day-forecast'}>
-                      <p>See the Five-Day Forecast</p>
-                    </Link>
-                    <Route path="/weather-today" render={() =>  <WeatherSquare {...weatherTodayProps} />} />
+            <Router>
+              <div>
+                <Link to={'/'}>
+                  <h1>Weather for {city}{region}</h1>
+                </Link>
+                <Link to={'/weather-today'}>
+                  <p>See Today's Weather</p>
+                </Link>
+                <Link to={'/five-day-forecast'}>
+                  <p>See the Five-Day Forecast</p>
+                </Link>
+                <Route path="/weather-today" render={() => {
+                  return (
+                    <div className="weather-today">
+                      <h2>Today's Weather</h2>
+                      <WeatherSquare {...weatherTodayProps} />
+                    </div>
+                  )
+                }} />
 
-                    <Route path="/five-day-forecast" render={() =>  {
-              return (
-                <div className="forecast">
-                <h2>Five-Day Forecast</h2>
-                <div className="five-day-forecast">
-                  {
-                    [1,2,3,4,5].map((num) => {
-                      const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
-                      const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
-                      const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
-                      const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
-                      const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
+                <Route path="/five-day-forecast" render={() =>  {
+                  return (
+                    <div>
+                      <h2>Five-Day Forecast</h2>
+                      <div className="five-day-forecast">
+                        {
+                          [1,2,3,4,5].map((num) => {
+                            const forecastCode = this.state.weatherData.data.query.results.channel.item.forecast[num].code;
+                            const day = this.state.weatherData.data.query.results.channel.item.forecast[num].day;
+                            const forecastDesc = this.state.weatherData.data.query.results.channel.item.forecast[num].text;
+                            const forecastHigh = this.state.weatherData.data.query.results.channel.item.forecast[num].high;
+                            const forecastLow = this.state.weatherData.data.query.results.channel.item.forecast[num].low;
 
-                      return (
-                        <WeatherSquare 
-                          code={forecastCode}
-                          day={day}
-                          desc={forecastDesc}
-                          high={forecastHigh}
-                          low={forecastLow}
-                          unit={tempUnit}
-                          key={num}
-                        />
-                      )
-                    })
-                  }
-                </div>
+                            return (
+                              <WeatherSquare 
+                                code={forecastCode}
+                                day={day}
+                                desc={forecastDesc}
+                                high={forecastHigh}
+                                low={forecastLow}
+                                unit={tempUnit}
+                                key={num}
+                              />
+                            )
+                          })
+                        }
+                      </div>
+                    </div>
+                  )
+                }} />
               </div>
-              )
-            }} />
-                  </div>
-                </Router>
-              )
-            }} />
-            
-            {/* <p>{JSON.stringify(this.state.weatherData)}</p> */}
+            </Router>
+            {/* <p>{JSON.stringify(this.state.weatherData.data.query.results.channel.item.condition.text)}</p> */}
           </div>
-        </Router>
       );
     } else {
       return <div className="app">Loading...</div>
