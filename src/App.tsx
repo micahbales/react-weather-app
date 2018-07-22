@@ -45,17 +45,23 @@ class App extends React.Component <{}, {weatherData: any}> {
       return (
         <Router>
           <div className="app">
-            <h1>Weather for {city}{region}</h1>
-            <Link to={'/weather-today'}>
-              <p>See Today's Weather</p>
-            </Link>
-            <Link to={'/five-day-forecast'}>
-              <p>See the Five-Day Forecast</p>
-            </Link>
             
-            <Route path="/weather-today" render={() =>  <WeatherSquare {...weatherTodayProps} />} />
-            
-            <Route path="/five-day-forecast" render={() =>  {
+            <Route path="/" render={() => {
+              return (
+                <Router>
+                  <div className="home">
+                    <Link to={'/'}>
+                      <h1>Weather for {city}{region}</h1>
+                    </Link>
+                    <Link to={'/weather-today'}>
+                      <p>See Today's Weather</p>
+                    </Link>
+                    <Link to={'/five-day-forecast'}>
+                      <p>See the Five-Day Forecast</p>
+                    </Link>
+                    <Route path="/weather-today" render={() =>  <WeatherSquare {...weatherTodayProps} />} />
+
+                    <Route path="/five-day-forecast" render={() =>  {
               return (
                 <div className="forecast">
                 <h2>Five-Day Forecast</h2>
@@ -83,6 +89,10 @@ class App extends React.Component <{}, {weatherData: any}> {
                   }
                 </div>
               </div>
+              )
+            }} />
+                  </div>
+                </Router>
               )
             }} />
             
